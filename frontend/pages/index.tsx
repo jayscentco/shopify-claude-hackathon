@@ -23,16 +23,20 @@ const MOCK_STORE: StoreInfo = {
   last_sync_at: '2026-03-24T10:30:00Z',
 }
 
+// Seeded pseudo-random to avoid SSR/client hydration mismatch
+function seededRandom(seed: number) {
+  const x = Math.sin(seed) * 10000
+  return x - Math.floor(x)
+}
+
 function generateMockRevenue(): RevenueDataPoint[] {
   const data: RevenueDataPoint[] = []
-  const now = new Date()
   for (let i = 29; i >= 0; i--) {
-    const d = new Date(now)
-    d.setDate(d.getDate() - i)
-    const base = 2800 + Math.random() * 1200
-    const orders = 18 + Math.floor(Math.random() * 15)
+    const seed = i + 42
+    const base = 2800 + seededRandom(seed) * 1200
+    const orders = 18 + Math.floor(seededRandom(seed + 100) * 15)
     data.push({
-      date: d.toISOString().split('T')[0],
+      date: `2026-03-${String(29 - i).padStart(2, '0')}`,
       revenue: Math.round(base * 100) / 100,
       orders,
       aov: Math.round((base / orders) * 100) / 100,
@@ -94,7 +98,7 @@ export default function DashboardPage() {
       {isMock && (
         <div className="bg-status-warning/10 border border-status-warning/20 rounded-lg px-4 py-2 mb-4 flex items-center justify-between">
           <span className="text-xs text-status-warning">
-            Using demo data — connect to The Pipe for live data
+            Using demo data — make sure backend is running (check terminal for "API" logs, or visit localhost:8000/health)
           </span>
           <button
             onClick={() => setUseMock(false)}

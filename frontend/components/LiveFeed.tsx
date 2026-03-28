@@ -43,6 +43,10 @@ function getEventIcon(type: LiveEvent['event_type']) {
   }
 }
 
+function isSimulated(event: LiveEvent): boolean {
+  return event.payload?.is_simulated === true
+}
+
 function getEventDescription(event: LiveEvent): string {
   const p = event.payload
   switch (event.event_type) {
@@ -103,6 +107,9 @@ export default function LiveFeed({ maxEvents = 20, mockEvents }: LiveFeedProps) 
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-text-primary truncate">
                   {getEventDescription(event)}
+                  {isSimulated(event) && (
+                    <span className="ml-1.5 text-[10px] text-text-tertiary bg-surface-2 px-1 py-0.5 rounded">SIM</span>
+                  )}
                 </p>
                 <p className="text-xs text-text-tertiary">
                   {timeAgo(event.created_at)}

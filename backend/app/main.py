@@ -120,11 +120,42 @@ app.include_router(shopify_proxy.router)
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
-    return {"status": "ok", "service": "hackathon-backend", "version": "2.0.0"}
+    """Health check — validates Shopify connection and DB status."""
+    settings = get_settings()
+    checks = {
+        "service": "hackathon-backend",
+        "version": "2.0.0",
+        "store_url": settings.SHOPIFY_STORE_URL,
+        "simulator": settings.SIMULATOR_ENABLED,
+    }
+
+    # Check database
+    try:
+        async with async_session_factory() as db:
+            result = await db.execute(select(func.count()).select_from(Product))
+            count = result.scalar()
+            checks["database"] = "ok"
+            checks["products_synced"] = count
+    except Exception as exc:
+        checks["database"] = f"error: {exc}"
+
+    # Check Shopify connection
+    try:
+        client: ShopifyClient = app.state.shopify
+        resp = await client.rest("GET", "shop.json")
+        shop = resp.get("shop", {})
+        checks["shopify"] = "connected"
+        checks["store_name"] = shop.get("name", "unknown")
+    except Exception as exc:
+        checks["shopify"] = f"error: {exc}"
+
+    all_ok = checks.get("database") == "ok" and checks.get("shopify") == "connected"
+    checks["status"] = "ok" if all_ok else "degraded"
+
+    return checks
 
 
 @app.get("/")
 async def root():
-    """Root endpoint — same as health check."""
-    return {"status": "ok", "service": "hackathon-backend", "version": "2.0.0"}
+    """Root endpoint — redirects to health check."""
+    return {"status": "ok", "service": "hackathon-backend", "version": "2.0.0", "tip": "Visit /health for full status, /docs for API reference"}

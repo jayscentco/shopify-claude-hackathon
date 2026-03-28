@@ -1,5 +1,13 @@
 # Shopify Hackathon — Builder's Guide
 
+## TL;DR
+- **Add pages** in `frontend/pages/` — they auto-route (e.g. `my-page.tsx` → `/my-page`)
+- **Fetch data** with hooks: `useProducts()`, `useOrders()`, `useRevenue('30d')`, `useEventStream()`
+- **Use components**: `Shell` (wrap every page), `KPICard`, `DataTable`, `LineChart`, `BarChart`, `DonutChart`, `LiveFeed`
+- **Write to Shopify**: `api.createDraftOrder()`, `api.createDiscount()`, `api.sendEmail()`
+- **API docs**: http://localhost:8000/docs
+- **Health check**: http://localhost:8000/health
+
 ## What You Have
 A working Next.js 14 dashboard connected to a real Shopify store with live data flowing.
 Your store has real products, customers, and orders — plus new orders arrive every 30-120 seconds via our order simulator.

@@ -20,9 +20,16 @@ if (nodeMajor < MIN_NODE) {
   console.log(`\x1b[32m✓ Node.js ${process.version}\x1b[0m`)
 }
 
-// Check Python version
+// Check Python version — try python3 first, then python (Windows)
+let pythonCmd = 'python3'
 try {
-  const pyVersionRaw = execSync('python3 --version 2>&1', { encoding: 'utf8' }).trim()
+  execSync('python3 --version', { stdio: 'pipe' })
+} catch {
+  pythonCmd = 'python'
+}
+
+try {
+  const pyVersionRaw = execSync(`${pythonCmd} --version 2>&1`, { encoding: 'utf8' }).trim()
   const match = pyVersionRaw.match(/Python (\d+)\.(\d+)/)
   if (match) {
     const major = parseInt(match[1], 10)
@@ -44,10 +51,10 @@ try {
 
 // Check pip
 try {
-  execSync('python3 -m pip --version', { stdio: 'pipe' })
+  execSync(`${pythonCmd} -m pip --version`, { stdio: 'pipe' })
   console.log('\x1b[32m✓ pip available\x1b[0m')
 } catch (e) {
-  console.error('\x1b[31m✗ pip not found. Install with: python3 -m ensurepip\x1b[0m')
+  console.error(`\x1b[31m✗ pip not found. Install with: ${pythonCmd} -m ensurepip\x1b[0m`)
   ok = false
 }
 
