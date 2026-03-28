@@ -148,8 +148,11 @@ export default function OfferPage() {
         </div>
       </div>
 
+      {/* Presenter talking point */}
+      <TalkingPoint step={step} />
+
       {/* Split layout */}
-      <div className="flex min-h-[calc(100vh-65px)]">
+      <div className="flex min-h-[calc(100vh-105px)]">
         {/* LEFT: Customer experience */}
         <div className="flex-1 flex items-center justify-center px-6 py-12">
           <AnimatePresence mode="wait">
@@ -503,6 +506,29 @@ export default function OfferPage() {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+const TALKING_POINTS: Record<number, string> = {
+  0: 'This only shows to your highest-spending repeat customers — not everyone.',
+  1: 'We ask them to connect socials so we can calculate the right offer behind the scenes.',
+  2: 'The reward is auto-calculated from your Shopify COGS. No setup needed.',
+  3: 'We give them everything they need — link, captions, photo prompt. One tap to share.',
+  4: 'They paste the post link. We verify it and issue store credit instantly.',
+  5: 'Credit hits their account the moment we verify. No waiting, no friction.',
+  6: 'Seven days later, we follow up based on how their post performed. Better results = bigger next offer.',
+}
+
+function TalkingPoint({ step }: { step: number }) {
+  const point = TALKING_POINTS[step]
+  if (!point) return null
+  return (
+    <div className="bg-dark px-6 py-3 text-center">
+      <p className="text-sm text-gray-300">
+        <span className="text-primary font-semibold mr-2">Presenter note:</span>
+        {point}
+      </p>
     </div>
   )
 }
