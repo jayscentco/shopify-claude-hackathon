@@ -68,13 +68,13 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      {/* Stats — light */}
+      {/* Quote — light */}
       <section className="bg-light px-6 md:px-12 py-16">
-        <div className="max-w-4xl mx-auto grid grid-cols-4 gap-6">
-          <StatBlock value="832" label="Fans activated across beta stores" />
-          <StatBlock value="12,400" label="New customers driven by fan posts" />
-          <StatBlock value="23x" label="Average return on store credit" />
-          <StatBlock value="$0" label="Setup cost — reads COGS automatically" />
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-lg text-gray-600 italic leading-relaxed mb-4">
+            "We spent $12K/month on influencer outreach and got ghosted half the time. Our best customers were right there — they just needed to be asked."
+          </p>
+          <p className="text-sm text-gray-400">— Early beta merchant, DTC footwear brand</p>
         </div>
       </section>
 
@@ -203,15 +203,6 @@ export default function LandingPage() {
       <footer className="bg-dark border-t border-dark-300 px-6 md:px-12 py-6 text-center">
         <span className="text-sm text-gray-500">1000 Fans — Your customers are your best marketers. Let them prove it.</span>
       </footer>
-    </div>
-  )
-}
-
-function StatBlock({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="text-center">
-      <p className="text-3xl md:text-4xl font-bold text-primary">{value}</p>
-      <p className="text-sm text-gray-500 mt-2">{label}</p>
     </div>
   )
 }
