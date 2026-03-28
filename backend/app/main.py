@@ -53,7 +53,7 @@ async def lifespan(app: FastAPI):
     )
     app.state.shopify = client
 
-    # Auto-sync if DB is empty
+    # Auto-sync if DB is empty — try Shopify, fall back to local mock data
     async with async_session_factory() as db:
         result = await db.execute(select(func.count()).select_from(Product))
         count = result.scalar()
@@ -64,16 +64,20 @@ async def lifespan(app: FastAPI):
                 await db.commit()
                 logger.info("Initial sync complete")
             except Exception as exc:
-                logger.error("Initial sync failed: %s", exc)
+                logger.warning("Shopify sync failed: %s — run 'cd backend && python seed_local.py' to load mock data", exc)
                 await db.rollback()
 
-    # Start order simulator
+    # Start order simulator only if Shopify is reachable
     simulator_task = None
-    if settings.SIMULATOR_ENABLED:
-        simulator_task = asyncio.create_task(
-            run_simulator(client, async_session_factory)
-        )
-        logger.info("Order simulator started")
+    try:
+        if settings.SIMULATOR_ENABLED:
+            await client.rest("GET", "shop.json")
+            simulator_task = asyncio.create_task(
+                run_simulator(client, async_session_factory)
+            )
+            logger.info("Order simulator started")
+    except Exception:
+        logger.info("Simulator disabled — Shopify not reachable, using local mock data")
 
     logger.info("Backend ready — %s", settings.SHOPIFY_STORE_URL)
 

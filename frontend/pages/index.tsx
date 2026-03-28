@@ -1,174 +1,139 @@
-import React, { useState } from 'react'
-import Shell from '../components/Shell'
-import KPICard from '../components/KPICard'
-import Card from '../components/ui/Card'
-import LineChart from '../components/charts/LineChart'
-import BarChart from '../components/charts/BarChart'
-import LiveFeed from '../components/LiveFeed'
-import { useApi } from '../hooks/useApi'
-import { useRevenue, useTopProducts } from '../hooks/useAnalytics'
-import { api } from '../lib/api'
-import { formatCurrency, formatNumber } from '../lib/utils'
-import type { StoreInfo, RevenueDataPoint, TopProduct, LiveEvent } from '../lib/types'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
+import { getProfile } from '../lib/tasteshop'
 
-// ── Mock Data ──────────────────────────────────────────────────────────────
+export default function LandingPage() {
+  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
 
-const MOCK_STORE: StoreInfo = {
-  domain: 'snowdevil.myshopify.com',
-  name: 'Snow Devil',
-  currency: 'USD',
-  product_count: 42,
-  order_count: 1283,
-  customer_count: 891,
-  last_sync_at: '2026-03-24T10:30:00Z',
-}
+  useEffect(() => {
+    setMounted(true)
+    // If already onboarded, redirect to dashboard
+    const profile = getProfile()
+    if (profile?.isPublished) {
+      router.replace('/dashboard')
+    }
+  }, [router])
 
-// Seeded pseudo-random to avoid SSR/client hydration mismatch
-function seededRandom(seed: number) {
-  const x = Math.sin(seed) * 10000
-  return x - Math.floor(x)
-}
-
-function generateMockRevenue(): RevenueDataPoint[] {
-  const data: RevenueDataPoint[] = []
-  for (let i = 29; i >= 0; i--) {
-    const seed = i + 42
-    const base = 2800 + seededRandom(seed) * 1200
-    const orders = 18 + Math.floor(seededRandom(seed + 100) * 15)
-    data.push({
-      date: `2026-03-${String(29 - i).padStart(2, '0')}`,
-      revenue: Math.round(base * 100) / 100,
-      orders,
-      aov: Math.round((base / orders) * 100) / 100,
-    })
-  }
-  return data
-}
-
-const MOCK_REVENUE = generateMockRevenue()
-
-const MOCK_TOP_PRODUCTS: TopProduct[] = [
-  { id: '1', title: 'The Complete Snowboard', revenue: 12480, units_sold: 48 },
-  { id: '2', title: 'The Collection Snowboard: Hydrogen', revenue: 9360, units_sold: 36 },
-  { id: '3', title: 'The Multi-managed Snowboard', revenue: 7540, units_sold: 29 },
-  { id: '4', title: 'The Draft Snowboard', revenue: 5200, units_sold: 20 },
-  { id: '5', title: 'Selling Plans Ski Wax', revenue: 3120, units_sold: 78 },
-]
-
-const MOCK_EVENTS: LiveEvent[] = [
-  { id: '1', event_type: 'new_order', payload: { order_number: '1042', total_price: 259.99 }, created_at: new Date(Date.now() - 60000).toISOString() },
-  { id: '2', event_type: 'customer_created', payload: { email: 'sarah@example.com' }, created_at: new Date(Date.now() - 180000).toISOString() },
-  { id: '3', event_type: 'new_order', payload: { order_number: '1041', total_price: 149.50 }, created_at: new Date(Date.now() - 300000).toISOString() },
-  { id: '4', event_type: 'inventory_change', payload: { product_title: 'Complete Snowboard' }, created_at: new Date(Date.now() - 420000).toISOString() },
-  { id: '5', event_type: 'new_order', payload: { order_number: '1040', total_price: 89.99 }, created_at: new Date(Date.now() - 600000).toISOString() },
-  { id: '6', event_type: 'product_update', payload: { title: 'Hydrogen Snowboard' }, created_at: new Date(Date.now() - 900000).toISOString() },
-  { id: '7', event_type: 'refund_issued', payload: { order_number: '1035' }, created_at: new Date(Date.now() - 1200000).toISOString() },
-  { id: '8', event_type: 'new_order', payload: { order_number: '1039', total_price: 324.00 }, created_at: new Date(Date.now() - 1500000).toISOString() },
-]
-
-// ── Page Component ─────────────────────────────────────────────────────────
-
-export default function DashboardPage() {
-  const [useMock, setUseMock] = useState(false)
-
-  const { data: storeData, error: storeError } = useApi(() => api.getStore(), [])
-  const { data: revenueData, error: revenueError } = useRevenue('30d')
-  const { data: topData, error: topError } = useTopProducts(5)
-
-  // Determine if we should use mock data
-  const isMock = useMock || !!(storeError && revenueError)
-  const store = storeData || MOCK_STORE
-  const revenue = revenueData?.series || MOCK_REVENUE
-  const topProducts = topData?.products || MOCK_TOP_PRODUCTS
-
-  // Compute KPIs from revenue series
-  const totalRevenue = revenue.reduce((sum, d) => sum + d.revenue, 0)
-  const totalOrders = revenue.reduce((sum, d) => sum + d.orders, 0)
-  const avgAOV = totalOrders > 0 ? totalRevenue / totalOrders : 0
-
-  // Simulated period-over-period change
-  const half = Math.floor(revenue.length / 2)
-  const firstHalf = revenue.slice(0, half).reduce((s, d) => s + d.revenue, 0)
-  const secondHalf = revenue.slice(half).reduce((s, d) => s + d.revenue, 0)
-  const revenueChange = firstHalf > 0 ? ((secondHalf - firstHalf) / firstHalf) * 100 : 0
+  if (!mounted) return null
 
   return (
-    <Shell title="Dashboard">
-      {/* Mock banner */}
-      {isMock && (
-        <div className="bg-status-warning/10 border border-status-warning/20 rounded-lg px-4 py-2 mb-4 flex items-center justify-between">
-          <span className="text-xs text-status-warning">
-            Using demo data — make sure backend is running (check terminal for "API" logs, or visit localhost:8000/health)
-          </span>
-          <button
-            onClick={() => setUseMock(false)}
-            className="text-xs text-text-tertiary hover:text-text-secondary"
+    <div className="min-h-screen bg-surface-0 flex flex-col">
+      {/* Nav */}
+      <nav className="flex items-center justify-between px-6 py-4 border-b border-border">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-accent" />
+          <span className="text-lg font-semibold text-text-primary tracking-tight">TasteShop</span>
+        </div>
+        <button
+          onClick={() => router.push('/onboard')}
+          className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+        >
+          Sign in
+        </button>
+      </nav>
+
+      {/* Hero */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="max-w-2xl text-center"
+        >
+          {/* Pill */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <span className="text-xs text-accent font-medium">Powered by Shopify Collabs</span>
+          </div>
+
+          <h1 className="text-3xl md:text-[42px] md:leading-[1.15] font-bold text-text-primary mb-4 tracking-tight">
+            Your purchases.<br />Your recommendations.<br />
+            <span className="text-accent">Your shop.</span>
+          </h1>
+
+          <p className="text-base md:text-lg text-text-secondary max-w-lg mx-auto mb-10 leading-relaxed">
+            TasteShop turns what you actually buy into a shoppable page your fans trust.
+            Every product is verified. Partnerships are auto-disclosed. You earn on every sale.
+          </p>
+
+          {/* CTA */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => router.push('/onboard')}
+            className="inline-flex items-center gap-3 px-8 py-3.5 bg-accent text-surface-0 rounded-lg font-semibold text-base hover:bg-accent/90 transition-colors"
           >
-            Dismiss
-          </button>
-        </div>
-      )}
+            {/* Instagram icon */}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2" />
+              <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
+              <circle cx="18" cy="6" r="1.5" fill="currentColor" />
+            </svg>
+            Start with your Instagram
+          </motion.button>
 
-      {/* KPI Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-5">
-        <KPICard
-          title="Total Revenue"
-          value={formatCurrency(totalRevenue)}
-          change={revenueChange}
-        />
-        <KPICard
-          title="Total Orders"
-          value={formatNumber(totalOrders)}
-          change={8.2}
-        />
-        <KPICard
-          title="Avg Order Value"
-          value={formatCurrency(avgAOV)}
-          change={-2.1}
-        />
-        <KPICard
-          title="Customers"
-          value={formatNumber(store.customer_count)}
-          change={12.4}
-        />
+          <p className="text-xs text-text-tertiary mt-4">
+            Takes 2 minutes. No credit card needed.
+          </p>
+        </motion.div>
+
+        {/* Trust signals */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mt-20 w-full"
+        >
+          <TrustCard
+            icon={
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            }
+            title="Verified purchases"
+            description="Every product is confirmed through real receipts. Your fans know it's genuine."
+          />
+          <TrustCard
+            icon={
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="currentColor" strokeWidth="2" />
+                <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            }
+            title="Auto-sync"
+            description="Buy something new on Shopify? It shows up on your page automatically."
+          />
+          <TrustCard
+            icon={
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            }
+            title="Earn on every sale"
+            description="Tracked affiliate links through Shopify Collabs. Commission on every purchase."
+          />
+        </motion.div>
       </div>
 
-      {/* Charts + Feed */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-5">
-        {/* Revenue chart - 2/3 on desktop, full on mobile */}
-        <div className="md:col-span-2">
-          <Card title="Revenue" subtitle="Last 30 days">
-            <LineChart
-              data={revenue.map((d) => ({
-                label: new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                value: d.revenue,
-              }))}
-              height={220}
-              color="#00FF94"
-              showGrid
-              showLabels
-              showTooltip
-            />
-          </Card>
-        </div>
+      {/* Footer */}
+      <footer className="border-t border-border px-6 py-4 text-center">
+        <span className="text-xs text-text-tertiary">
+          TasteShop — Authentic creator commerce, built on Shopify
+        </span>
+      </footer>
+    </div>
+  )
+}
 
-        {/* Live feed - 1/3 */}
-        <Card className="min-h-[280px]">
-          <LiveFeed maxEvents={20} mockEvents={isMock ? MOCK_EVENTS : undefined} />
-        </Card>
-      </div>
-
-      {/* Top Products */}
-      <Card title="Top Products" subtitle="By revenue">
-        <BarChart
-          data={topProducts.map((p) => ({
-            label: p.title,
-            value: p.revenue,
-          }))}
-          height={180}
-          horizontal
-        />
-      </Card>
-    </Shell>
+function TrustCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+  return (
+    <div className="bg-surface-1 border border-border rounded-lg p-5">
+      <div className="text-accent mb-3">{icon}</div>
+      <h3 className="text-sm font-medium text-text-primary mb-1.5">{title}</h3>
+      <p className="text-xs text-text-tertiary leading-relaxed">{description}</p>
+    </div>
   )
 }
