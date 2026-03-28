@@ -110,7 +110,7 @@ export default function DashboardPage() {
       )}
 
       {/* KPI Row */}
-      <div className="grid grid-cols-4 gap-4 mb-5">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-5">
         <KPICard
           title="Total Revenue"
           value={formatCurrency(totalRevenue)}
@@ -134,9 +134,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts + Feed */}
-      <div className="grid grid-cols-3 gap-4 mb-5">
-        {/* Revenue chart - 2/3 */}
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-5">
+        {/* Revenue chart - 2/3 on desktop, full on mobile */}
+        <div className="md:col-span-2">
           <Card title="Revenue" subtitle="Last 30 days">
             <LineChart
               data={revenue.map((d) => ({

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../lib/utils'
 import { STORE_URL } from '../lib/constants'
 
@@ -48,20 +49,93 @@ const navItems = [
 
 export default function Shell({ title, children }: ShellProps) {
   const router = useRouter()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div className="flex h-screen bg-surface-0">
-      {/* Sidebar */}
-      <aside className="w-60 bg-surface-1 border-r border-border flex flex-col flex-shrink-0">
-        {/* Logo */}
+      {/* Mobile header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 h-12 bg-surface-1 border-b border-border flex items-center justify-between px-4">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-accent" />
+          <span className="text-sm font-semibold text-text-primary">{title}</span>
+        </div>
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="p-1.5 rounded-md hover:bg-surface-2 transition-colors"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-text-secondary">
+            {mobileMenuOpen ? (
+              <path d="M5 5l10 10M15 5l-10 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            ) : (
+              <>
+                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </>
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <motion.aside
+              initial={{ x: -240 }}
+              animate={{ x: 0 }}
+              exit={{ x: -240 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="w-60 h-full bg-surface-1 border-r border-border flex flex-col pt-12"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <nav className="flex-1 px-2 py-3 space-y-0.5">
+                {navItems.map((item) => {
+                  const active = router.pathname === item.href
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={cn(
+                        'flex items-center gap-2.5 px-3 py-2.5 rounded-md text-sm transition-colors duration-150 ease-out',
+                        active
+                          ? 'bg-surface-2 text-text-primary border-l-2 border-accent'
+                          : 'text-text-secondary hover:text-text-primary hover:bg-surface-2/50'
+                      )}
+                    >
+                      <span className={active ? 'text-accent' : 'text-text-tertiary'}>{item.icon}</span>
+                      {item.label}
+                    </Link>
+                  )
+                })}
+              </nav>
+              <div className="px-4 py-3 border-t border-border">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-status-success" />
+                  <span className="text-xs text-text-tertiary truncate">
+                    {STORE_URL || 'No store connected'}
+                  </span>
+                </div>
+              </div>
+            </motion.aside>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-60 bg-surface-1 border-r border-border flex-col flex-shrink-0">
         <div className="px-4 py-4 border-b border-border">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-accent" />
             <span className="text-sm font-semibold text-text-primary">Shopify App</span>
           </div>
         </div>
-
-        {/* Navigation */}
         <nav className="flex-1 px-2 py-3 space-y-0.5">
           {navItems.map((item) => {
             const active = router.pathname === item.href
@@ -76,16 +150,12 @@ export default function Shell({ title, children }: ShellProps) {
                     : 'text-text-secondary hover:text-text-primary hover:bg-surface-2/50'
                 )}
               >
-                <span className={active ? 'text-accent' : 'text-text-tertiary'}>
-                  {item.icon}
-                </span>
+                <span className={active ? 'text-accent' : 'text-text-tertiary'}>{item.icon}</span>
                 {item.label}
               </Link>
             )
           })}
         </nav>
-
-        {/* Footer */}
         <div className="px-4 py-3 border-t border-border">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-status-success" />
@@ -98,8 +168,8 @@ export default function Shell({ title, children }: ShellProps) {
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Topbar */}
-        <header className="h-12 bg-surface-1 border-b border-border flex items-center justify-between px-5 flex-shrink-0">
+        {/* Desktop topbar */}
+        <header className="hidden md:flex h-12 bg-surface-1 border-b border-border items-center justify-between px-5 flex-shrink-0">
           <h1 className="text-sm font-medium text-text-primary">{title}</h1>
           {STORE_URL && (
             <a
@@ -114,7 +184,15 @@ export default function Shell({ title, children }: ShellProps) {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto p-5">{children}</main>
+        <motion.main
+          key={router.pathname}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          className="flex-1 overflow-y-auto p-4 md:p-5 pt-16 md:pt-5"
+        >
+          {children}
+        </motion.main>
       </div>
     </div>
   )

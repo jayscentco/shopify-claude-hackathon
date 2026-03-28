@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import { cn } from '../../lib/utils'
 
 interface CardProps {
@@ -11,9 +12,12 @@ interface CardProps {
 
 export default function Card({ children, title, subtitle, className, action }: CardProps) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: 'easeOut', delay: 0.05 }}
       className={cn(
-        'bg-surface-1 border border-border rounded-lg p-4',
+        'bg-surface-1 border border-border rounded-lg p-3 md:p-4',
         className
       )}
     >
@@ -31,6 +35,6 @@ export default function Card({ children, title, subtitle, className, action }: C
         </div>
       )}
       {children}
-    </div>
+    </motion.div>
   )
 }
