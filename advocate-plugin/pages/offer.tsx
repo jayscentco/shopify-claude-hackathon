@@ -325,17 +325,28 @@ export default function OfferPage() {
                   </svg>
                 </motion.div>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Thank you. Really.</h2>
-                <p className="text-base text-gray-500 mb-8 max-w-sm text-center leading-relaxed">
-                  You just helped a small brand reach new people. <span className="font-bold text-success">{formatCurrency(reward)}</span> in store credit is on the way — our small way of saying thanks. We'll show you how your post does over the next week.
+                <p className="text-base text-gray-500 mb-3 max-w-sm text-center leading-relaxed">
+                  You just helped us reach new people. That means more than you know.
                 </p>
-                <div className="w-full max-w-sm bg-white rounded-2xl shadow-card p-5 mb-8">
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Post performance (updates live)</p>
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div><p className="text-xl font-bold text-gray-300">—</p><p className="text-xs text-gray-400 mt-1">Clicks</p></div>
-                    <div><p className="text-xl font-bold text-gray-300">—</p><p className="text-xs text-gray-400 mt-1">Add to carts</p></div>
-                    <div><p className="text-xl font-bold text-gray-300">—</p><p className="text-xs text-gray-400 mt-1">Sales</p></div>
+
+                {/* Credit issued immediately */}
+                <div className="w-full max-w-sm bg-white rounded-2xl shadow-elevated p-5 mb-6 border-2 border-success/20">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-success"><path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </div>
+                    <div>
+                      <p className="text-base font-bold text-gray-900">{formatCurrency(reward)} store credit added</p>
+                      <p className="text-sm text-gray-500">Applied to your account — use it on your next order</p>
+                    </div>
+                  </div>
+                  <div className="bg-green-50 rounded-xl px-4 py-2.5 text-center">
+                    <p className="text-sm text-success font-medium">Available now in your account</p>
                   </div>
                 </div>
+
+                <p className="text-sm text-gray-400 mb-8 max-w-sm text-center">We'll track how your post does over the next week and follow up with you.</p>
+
                 <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={showNextOffer}
                   className="px-8 py-3.5 bg-primary text-white rounded-full font-semibold text-base hover:bg-primary-600 transition-colors shadow-glow">
                   See what happens next →

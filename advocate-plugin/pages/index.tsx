@@ -70,10 +70,11 @@ export default function LandingPage() {
 
       {/* Stats — light */}
       <section className="bg-light px-6 md:px-12 py-16">
-        <div className="max-w-4xl mx-auto grid grid-cols-3 gap-8">
-          <StatBlock value="$0" label="Setup cost — reads COGS from Shopify automatically" />
-          <StatBlock value="23x" label="Average return on store credit given" />
-          <StatBlock value="0" label="Influencers you need to find and email" />
+        <div className="max-w-4xl mx-auto grid grid-cols-4 gap-6">
+          <StatBlock value="832" label="Fans activated across beta stores" />
+          <StatBlock value="12,400" label="New customers driven by fan posts" />
+          <StatBlock value="23x" label="Average return on store credit" />
+          <StatBlock value="$0" label="Setup cost — reads COGS automatically" />
         </div>
       </section>
 
