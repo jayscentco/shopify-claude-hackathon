@@ -31,9 +31,7 @@ export default function MerchantDashboard() {
       <aside className="hidden md:flex w-60 bg-dark flex-col flex-shrink-0">
         <div className="px-5 py-5 border-b border-dark-300">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="white" /></svg>
-            </div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="white" /></svg>
             <span className="text-base font-semibold text-white tracking-tight">1000 Fans</span>
           </div>
         </div>
@@ -254,11 +252,11 @@ function UGCTab() {
 
 function SettingsTab() {
   const exampleProducts = [
-    { title: 'Artist Collab Hoodie', price: 120, cogs: 38, margin: 68.3, maxReward: 24.60 },
-    { title: 'Embroidered Varsity Jacket', price: 185, cogs: 62, margin: 66.5, maxReward: 36.90 },
-    { title: 'Heritage Leather Wallet', price: 89, cogs: 28, margin: 68.5, maxReward: 18.30 },
-    { title: 'Essential Joggers', price: 55, cogs: 18, margin: 67.3, maxReward: 11.10 },
-    { title: 'Signature Cap', price: 32, cogs: 8, margin: 75.0, maxReward: 7.20 },
+    { title: 'Nike Air Max 90', price: 130, cogs: 42, margin: 67.7, maxReward: 26 },
+    { title: 'Nike Tech Fleece Hoodie', price: 130, cogs: 40, margin: 69.2, maxReward: 27 },
+    { title: 'Nike Dri-FIT Tee', price: 35, cogs: 8, margin: 77.1, maxReward: 8 },
+    { title: 'Nike Sportswear Joggers', price: 70, cogs: 22, margin: 68.6, maxReward: 14 },
+    { title: 'Nike Heritage Backpack', price: 50, cogs: 14, margin: 72.0, maxReward: 11 },
   ]
 
   return (

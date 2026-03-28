@@ -66,8 +66,8 @@ export default function OfferPage() {
       addLog(`Tier assigned: ${tier.toUpperCase()}`, 'decision')
 
       const rewardAmount = calculateReward(loyaltyScore, socialScore)
-      addLog(`COGS lookup: $38 → profit: $82 → max reward: $24.60`, 'info')
-      addLog(`Offer: $24.60 × (${combined}/100) = ${formatCurrency(rewardAmount)}`, 'decision')
+      addLog(`COGS lookup: $42 → profit: $88 → max reward: $26`, 'info')
+      addLog(`Offer: $26 × (${combined}/100) = ${formatCurrency(rewardAmount)}`, 'decision')
 
       const updated = { ...customer, socials: connectedPlatforms, loyaltyScore, socialScore, combinedScore: combined, tier }
       setCustomer(updated)
@@ -111,8 +111,8 @@ export default function OfferPage() {
     addLog('Tracked link clicks: 284 · Add-to-carts: 38 · Sales: 12', 'score')
     addLog('Revenue attributed: $1,440', 'score')
     addLog('Performance: ABOVE AVERAGE — upgrading next offer', 'decision')
-    addLog('New reward calculated: $35 (was $' + reward + ')', 'decision')
-    addLog('Selected product for next offer: Heritage Leather Wallet ($89)', 'info')
+    addLog('New reward calculated: $30 (was $' + reward + ')', 'decision')
+    addLog('Selected product for next offer: Nike Tech Fleece Hoodie ($130)', 'info')
     addLog('Sending re-engagement email...', 'action')
     setStep(6)
   }
@@ -130,9 +130,7 @@ export default function OfferPage() {
       {/* Top bar */}
       <div className="bg-white border-b border-light-200 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="white" /></svg>
-          </div>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#6B5FF6" /></svg>
           <span className="text-lg font-semibold text-gray-900 tracking-tight">1000 Fans</span>
           <span className="text-xs bg-primary-50 text-primary font-semibold px-2.5 py-0.5 rounded-full ml-2">Demo Mode</span>
         </div>
@@ -380,17 +378,17 @@ export default function OfferPage() {
 
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-16 h-16 rounded-xl bg-light overflow-hidden flex-shrink-0">
-                      <img src="/products/heritage-leather-wallet.png" alt="Heritage Leather Wallet" className="w-full h-full object-cover" />
+                      <img src="/products/nike-tech-fleece-hoodie.png" alt="Nike Tech Fleece Hoodie" className="w-full h-full object-cover" />
                     </div>
                     <div>
-                      <p className="text-base font-bold text-gray-900">Heritage Leather Wallet</p>
-                      <p className="text-sm text-gray-500">{formatCurrency(89)}</p>
+                      <p className="text-base font-bold text-gray-900">Nike Tech Fleece Hoodie</p>
+                      <p className="text-sm text-gray-500">{formatCurrency(130)}</p>
                     </div>
                   </div>
 
                   <div className="bg-primary-50 rounded-xl p-4 mb-4">
                     <p className="text-base text-gray-800 leading-relaxed">
-                      Share this one with your people and we'll give you <span className="font-bold text-primary">{formatCurrency(35)} in store credit</span> — that's enough for a <span className="font-bold text-gray-900">free Signature Cap</span> on us.
+                      Share this one with your people and we'll give you <span className="font-bold text-primary">{formatCurrency(30)} in store credit</span> — that's enough for a <span className="font-bold text-gray-900">free Nike Dri-FIT Tee</span> on us.
                     </p>
                   </div>
 
@@ -451,9 +449,9 @@ export default function OfferPage() {
           <div className="px-5 py-4 border-b border-dark-300">
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Formula (COGS-based)</p>
             <div className="bg-dark-100 rounded-xl px-3 py-2.5 font-mono text-xs text-gray-400 leading-relaxed">
-              <p><span className="text-gray-500">product:</span> <span className="text-white">$120</span> price, <span className="text-white">$38</span> COGS</p>
-              <p><span className="text-primary-200">profit</span> = $120 - $38 = <span className="text-white">$82</span></p>
-              <p><span className="text-primary-200">max_reward</span> = $82 × <span className="text-yellow-300">0.30</span> = <span className="text-white">$24.60</span></p>
+              <p><span className="text-gray-500">product:</span> <span className="text-white">$130</span> price, <span className="text-white">$42</span> COGS</p>
+              <p><span className="text-primary-200">profit</span> = $130 - $42 = <span className="text-white">$88</span></p>
+              <p><span className="text-primary-200">max_reward</span> = $88 × <span className="text-yellow-300">0.30</span> = <span className="text-white">$26</span></p>
               <p><span className="text-primary-200">offer</span> = max × (score / 100)</p>
               <p className="mt-1"><span className="text-primary-200">combined</span> = loyalty×<span className="text-yellow-300">0.4</span> + social×<span className="text-yellow-300">0.6</span></p>
             </div>
