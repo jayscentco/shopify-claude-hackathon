@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import { formatCurrency } from '../lib/utils'
 
 export default function LandingPage() {
   const router = useRouter()
@@ -30,7 +29,6 @@ export default function LandingPage() {
 
       {/* Hero — dark */}
       <section className="bg-dark px-6 md:px-12 pt-20 pb-24 md:pt-28 md:pb-32 relative overflow-hidden">
-        {/* Gradient orb */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
 
         <motion.div
@@ -45,13 +43,12 @@ export default function LandingPage() {
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
-            Turn your best customers<br />
-            into your best <span className="text-primary-200">fans</span>
+            Your customers already<br />
+            love you. <span className="text-primary-200">Let them show it.</span>
           </h1>
 
           <p className="text-lg text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed">
-            1000 Fans identifies loyal customers after checkout, scores their social reach,
-            and offers personalized store credit for sharing. Automated micro-influencer marketing that pays for itself.
+            1000 Fans finds your most loyal customers after checkout and invites them to help you grow — by sharing products they already buy. No influencer outreach. No ad spend. Just real fans, real posts, real sales.
           </p>
 
           <div className="flex items-center justify-center gap-4 flex-wrap">
@@ -61,7 +58,7 @@ export default function LandingPage() {
               onClick={() => router.push('/offer')}
               className="px-8 py-3.5 bg-primary text-white rounded-full font-semibold text-base hover:bg-primary-600 transition-colors shadow-glow"
             >
-              See customer experience
+              See the fan experience
             </motion.button>
             <button
               onClick={() => router.push('/merchant')}
@@ -76,9 +73,9 @@ export default function LandingPage() {
       {/* Stats — light */}
       <section className="bg-light px-6 md:px-12 py-16">
         <div className="max-w-4xl mx-auto grid grid-cols-3 gap-8">
-          <StatBlock value="23x" label="Average ROI on store credit" />
-          <StatBlock value="4.2%" label="Post-to-purchase conversion" />
-          <StatBlock value="$0" label="Upfront cost to merchants" />
+          <StatBlock value="$0" label="Setup cost — reads COGS from Shopify automatically" />
+          <StatBlock value="23x" label="Average return on store credit given" />
+          <StatBlock value="0" label="Influencers you need to find and email" />
         </div>
       </section>
 
@@ -92,15 +89,15 @@ export default function LandingPage() {
             className="text-center mb-14"
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-3">How it works</h2>
-            <p className="text-base text-gray-500 max-w-lg mx-auto">Four steps from checkout to attributed revenue. No manual outreach needed.</p>
+            <p className="text-base text-gray-500 max-w-lg mx-auto">From checkout to new customers — without you lifting a finger.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { num: '01', title: 'Smart targeting', desc: 'After checkout, high-value customers see an exclusive invite. Everyone else gets a standard referral link.' },
-              { num: '02', title: 'Connect socials', desc: 'Customer links Instagram, TikTok, or X. We calculate their reach and your loyalty score for them.' },
-              { num: '03', title: 'Personalized offer', desc: 'Algorithm combines both scores to generate a custom store credit offer. $5-50 range, fully configurable.' },
-              { num: '04', title: 'Post & earn', desc: 'They share a photo with a tracked link. You get UGC + attributed sales. They get store credit.' },
+              { num: '01', title: 'We spot your fans', desc: 'After checkout, 1000 Fans checks their purchase history. Repeat buyers and high-value customers get an exclusive invite.' },
+              { num: '02', title: 'They connect socials', desc: 'Your fan links their Instagram, TikTok, or X. We learn about their audience so we can make the right offer.' },
+              { num: '03', title: 'Smart reward from COGS', desc: 'We read your product margins directly from Shopify and calculate a reward that makes sense for both of you. No configuration needed.' },
+              { num: '04', title: 'They share, you grow', desc: 'They post about a product they genuinely bought. New customers discover you through someone they trust. Everyone wins.' },
             ].map((step, i) => (
               <motion.div
                 key={step.num}
@@ -119,39 +116,71 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Value props — dark */}
+      {/* The flywheel — dark */}
       <section className="bg-dark px-6 md:px-12 py-20 md:py-24">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-white mb-3">Why 1000 Fans</h2>
-            <p className="text-base text-gray-400 max-w-lg mx-auto">Your customers are already talking about you. Now you can track it, reward it, and scale it.</p>
+            <h2 className="text-3xl font-bold text-white mb-3">The flywheel</h2>
+            <p className="text-base text-gray-400 max-w-lg mx-auto">It doesn't stop after one post. The more they help, the more they earn — and the more you grow.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <ValueCard
-              icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /><circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="2" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>}
-              title="Zero outreach"
-              description="Your best fans are already buying from you. 1000 Fans finds and activates them automatically."
+              icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>}
+              title="Fan posts, you get customers"
+              description="Their post brings in 12 new customers. You didn't pay for an ad — someone who loves your brand told their friends."
             />
             <ValueCard
-              icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" /><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="2" /><path d="M21 15l-5-5L5 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>}
-              title="UGC gallery"
-              description="Every verified post becomes content you can reuse with permission. Real customer photos, not stock images."
+              icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>}
+              title="You thank them with credit"
+              description="Reward is auto-calculated from your margins. No guesswork — Shopify COGS data sets the ceiling. You never overspend."
             />
             <ValueCard
-              icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 20V10M18 20V4M6 20v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>}
-              title="Self-optimizing"
-              description="The algorithm learns which customers drive the most sales and automatically adjusts future offers."
+              icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+              title="Good posts get bigger offers"
+              description="After 7 days we measure results. Strong performers get better offers next time. The system learns who drives real growth."
             />
           </div>
         </div>
       </section>
 
-      {/* CTA — light */}
-      <section className="bg-white px-6 md:px-12 py-20 text-center">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to activate your fans?</h2>
-          <p className="text-base text-gray-500 mb-8">Install in 5 minutes. See your first attributed sale within a week.</p>
+      {/* What makes this different — white */}
+      <section className="bg-white px-6 md:px-12 py-20 md:py-24">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Not another influencer tool</h2>
+          <div className="space-y-6">
+            {[
+              { before: 'Influencer platforms', after: '1000 Fans', left: 'You find creators, negotiate rates, hope they post.', right: 'Your fans find themselves. They already bought the product.' },
+              { before: 'Referral programs', after: '1000 Fans', left: 'Generic 10% off code. No targeting. No social proof.', right: 'Personalized offers based on loyalty + reach. Real photos, not just links.' },
+              { before: 'Manual outreach', after: '1000 Fans', left: 'DM creators. Send free product. Pray for a post.', right: 'Runs after every checkout. Zero manual work. Scales with your store.' },
+            ].map((row, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              >
+                <div className="bg-light-100 rounded-2xl p-5 border border-light-200">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">{row.before}</p>
+                  <p className="text-sm text-gray-500 leading-relaxed">{row.left}</p>
+                </div>
+                <div className="bg-primary-50 rounded-2xl p-5 border border-primary/10">
+                  <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-2">{row.after}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed">{row.right}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA — dark */}
+      <section className="bg-dark px-6 md:px-12 py-20 text-center relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-primary/8 blur-[100px] pointer-events-none" />
+        <div className="max-w-2xl mx-auto relative z-10">
+          <h2 className="text-3xl font-bold text-white mb-4">You don't need 1000 influencers.<br />You need 1000 fans.</h2>
+          <p className="text-base text-gray-400 mb-8">Install in 5 minutes. No configuration — we read your margins from Shopify. Your fans do the rest.</p>
           <div className="flex items-center justify-center gap-4">
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -159,21 +188,21 @@ export default function LandingPage() {
               onClick={() => router.push('/offer')}
               className="px-8 py-3.5 bg-primary text-white rounded-full font-semibold text-base hover:bg-primary-600 transition-colors shadow-glow"
             >
-              Try the customer demo
+              See the fan experience
             </motion.button>
             <button
               onClick={() => router.push('/merchant')}
-              className="px-8 py-3.5 bg-light border border-light-200 text-gray-700 rounded-full font-semibold text-base hover:bg-light-100 transition-colors shadow-soft"
+              className="px-8 py-3.5 bg-dark-100 border border-dark-300 text-white rounded-full font-semibold text-base hover:bg-dark-200 transition-colors"
             >
-              View merchant dashboard
+              Merchant dashboard
             </button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-dark px-6 md:px-12 py-6 text-center">
-        <span className="text-sm text-gray-500">1000 Fans — Turn your best customers into your best marketers</span>
+      <footer className="bg-dark border-t border-dark-300 px-6 md:px-12 py-6 text-center">
+        <span className="text-sm text-gray-500">1000 Fans — Your customers are your best marketers. Let them prove it.</span>
       </footer>
     </div>
   )
