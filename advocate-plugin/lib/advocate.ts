@@ -99,7 +99,7 @@ export const MOCK_CUSTOMER: CustomerProfile = {
 export const MOCK_PRODUCT = {
   id: 'prod-1',
   title: 'Nike Air Max 90',
-  image: '/products/nike-air-max-90.png',
+  image: '/products/signature-cap.png',
   price: 130,
   handle: 'nike-air-max-90',
   cogs: 42,
@@ -163,31 +163,31 @@ export const MOCK_UGC_POSTS: UGCPost[] = [
   {
     id: 'ugc-1', customerId: 'adv-4', customerName: 'Ava Johnson', customerAvatar: 'https://i.pravatar.cc/300?u=avaj',
     platform: 'instagram', postUrl: 'https://instagram.com/p/abc123',
-    productTitle: 'Nike Air Max 90', productImage: '/products/nike-air-max-90.png',
+    productTitle: 'Nike Air Max 90', productImage: '/products/signature-cap.png',
     reward: 26, clicks: 4820, conversions: 118, revenue: 15340, verifiedAt: '2026-03-26T14:30:00Z',
   },
   {
     id: 'ugc-2', customerId: 'adv-2', customerName: 'James Chen', customerAvatar: 'https://i.pravatar.cc/300?u=jameschen',
     platform: 'tiktok', postUrl: 'https://tiktok.com/@jamesc/video/123',
-    productTitle: 'Nike Tech Fleece Hoodie', productImage: '/products/nike-tech-fleece-hoodie.png',
+    productTitle: 'Nike Tech Fleece Hoodie', productImage: '/products/everyday-hoodie.png',
     reward: 30, clicks: 3640, conversions: 84, revenue: 10920, verifiedAt: '2026-03-25T10:15:00Z',
   },
   {
     id: 'ugc-3', customerId: 'adv-1', customerName: 'Sofia Martinez', customerAvatar: 'https://i.pravatar.cc/300?u=sofia',
     platform: 'instagram', postUrl: 'https://instagram.com/p/def456',
-    productTitle: 'Nike Heritage Backpack', productImage: '/products/nike-heritage-backpack.png',
+    productTitle: 'Nike Heritage Backpack', productImage: '/products/heritage-leather-wallet.png',
     reward: 12, clicks: 1180, conversions: 34, revenue: 1700, verifiedAt: '2026-03-24T09:00:00Z',
   },
   {
     id: 'ugc-4', customerId: 'adv-6', customerName: 'Mia Anderson', customerAvatar: 'https://i.pravatar.cc/300?u=miaa',
     platform: 'instagram', postUrl: 'https://instagram.com/p/ghi789',
-    productTitle: 'Nike Sportswear Joggers', productImage: '/products/nike-sportswear-joggers.png',
+    productTitle: 'Nike Sportswear Joggers', productImage: '/products/essential-joggers.png',
     reward: 15, clicks: 890, conversions: 21, revenue: 1470, verifiedAt: '2026-03-23T16:45:00Z',
   },
   {
     id: 'ugc-5', customerId: 'adv-4', customerName: 'Ava Johnson', customerAvatar: 'https://i.pravatar.cc/300?u=avaj',
     platform: 'tiktok', postUrl: 'https://tiktok.com/@avaj/video/456',
-    productTitle: 'Nike Dri-FIT Tee', productImage: '/products/nike-dri-fit-tee.png',
+    productTitle: 'Nike Dri-FIT Tee', productImage: '/products/classic-logo-tee.png',
     reward: 10, clicks: 6200, conversions: 156, revenue: 5460, verifiedAt: '2026-03-22T11:20:00Z',
   },
 ]
@@ -195,7 +195,7 @@ export const MOCK_UGC_POSTS: UGCPost[] = [
 export const MOCK_OFFERS: AdvocateOffer[] = [
   {
     id: 'off-1', customerId: 'adv-4', productId: 'prod-1',
-    productTitle: 'Nike Air Max 90', productImage: '/products/nike-air-max-90.png', productPrice: 130,
+    productTitle: 'Nike Air Max 90', productImage: '/products/signature-cap.png', productPrice: 130,
     rewardAmount: 26, trackedLink: 'https://nike.com/r/avaj-airmax01',
     suggestedCaptions: [
       'These Air Max 90s are everything. Link in bio.',
@@ -207,7 +207,7 @@ export const MOCK_OFFERS: AdvocateOffer[] = [
   },
   {
     id: 'off-2', customerId: 'adv-2', productId: 'prod-2',
-    productTitle: 'Nike Tech Fleece Hoodie', productImage: '/products/nike-tech-fleece-hoodie.png', productPrice: 130,
+    productTitle: 'Nike Tech Fleece Hoodie', productImage: '/products/everyday-hoodie.png', productPrice: 130,
     rewardAmount: 30, trackedLink: 'https://nike.com/r/jamesc-techfleece01',
     suggestedCaptions: [
       'This Tech Fleece is unreal. Had to share.',

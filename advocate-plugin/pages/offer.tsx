@@ -378,7 +378,7 @@ export default function OfferPage() {
 
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-16 h-16 rounded-xl bg-light overflow-hidden flex-shrink-0">
-                      <img src="/products/nike-tech-fleece-hoodie.png" alt="Nike Tech Fleece Hoodie" className="w-full h-full object-cover" />
+                      <img src="/products/everyday-hoodie.png" alt="Nike Tech Fleece Hoodie" className="w-full h-full object-cover" />
                     </div>
                     <div>
                       <p className="text-base font-bold text-gray-900">Nike Tech Fleece Hoodie</p>
