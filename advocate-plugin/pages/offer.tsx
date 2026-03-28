@@ -364,23 +364,12 @@ export default function OfferPage() {
 
                 {/* Results card */}
                 <div className="w-full max-w-sm bg-white rounded-2xl shadow-card p-5 mb-6">
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">What your post did</p>
-                  <div className="grid grid-cols-3 gap-4 text-center mb-4">
-                    <div>
-                      <p className="text-2xl font-bold text-gray-900">284</p>
-                      <p className="text-xs text-gray-400 mt-0.5">People reached</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-gray-900">12</p>
-                      <p className="text-xs text-gray-400 mt-0.5">New customers</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-primary">{formatCurrency(1440)}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">Revenue for us</p>
-                    </div>
+                  <div className="text-center mb-4">
+                    <p className="text-4xl font-bold text-gray-900 mb-1">12</p>
+                    <p className="text-base text-gray-500">new customers found us because of you</p>
                   </div>
                   <div className="bg-green-50 rounded-xl px-4 py-3 text-center">
-                    <p className="text-sm text-success font-semibold">You're in the top 5% of supporters this month</p>
+                    <p className="text-sm text-success font-semibold">You're one of our top 10 fans this month</p>
                   </div>
                 </div>
 
